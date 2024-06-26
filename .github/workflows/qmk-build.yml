@@ -32,7 +32,7 @@ jobs:
           make splitkb/aurora/helix/rev1:default
 
       - name: Upload a Firmware
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: build
+          path: .build/*.uf2
