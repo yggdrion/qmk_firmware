@@ -23,6 +23,16 @@ jobs:
         run: |
           python3 -m pip install --user qmk
 
+      - name: setup qmk
+        run: |
+          qmk setup -y
+
       - name: build
         run: |
           make splitkb/aurora/helix/rev1:default
+
+      - name: Upload a Firmware
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: firmware
+          path: build
