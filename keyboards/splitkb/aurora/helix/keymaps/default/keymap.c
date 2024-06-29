@@ -29,7 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_TRNS,       KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                 KC_TRNS,       KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
-[2] = LAYOUT(   KC_TRNS,       KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+[2] = LAYOUT(   KC_TRNS,       KC_F1,       KC_F2,    KC_F3,   KC_F4,    KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_TRNS,
                 KC_TRNS,       KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                 KC_TRNS,       KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                 KC_TRNS,       KC_TRNS,     KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -39,19 +39,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // clang-format on
+
+#ifdef RGBLIGHT_ENABLE
+void keyboard_post_init_user(void) {
+    // Initialize RGB to static black
+    rgblight_enable_noeeprom();
+    rgblight_sethsv_noeeprom(HSV_WHITE);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+}
+
+void housekeeping_task_user(void) {
+    rgblight_setrgb_at(RGB_WHITE, 0);
+}
+
+#endif
+
 #if defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 
 };
 #endif // defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
-
-#ifdef RGBLIGHT_ENABLE
-void keyboard_post_init_user(void) {
-    rgblight_enable_noeeprom();                         // enables RGB, without saving settings
-    rgblight_sethsv_noeeprom(HSV_WHITE);                // sets the color to red without saving
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT); // sets mode to Fast breathing without saving
-}
-#endif
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
@@ -60,18 +67,19 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         if (clockwise) {
             // increase volume
-            tap_code(KC_MS_WH_DOWN);
-        } else {
-            // decrease volume
-            tap_code(KC_MS_WH_UP);
-        }
-    } else if (index == 1) {
-        if (clockwise) {
-            // increase volume
             tap_code(KC_VOLU);
         } else {
             // decrease volume
             tap_code(KC_VOLD);
+        }
+
+    } else if (index == 1) {
+        if (clockwise) {
+            // increase volume
+            tap_code(KC_MS_WH_DOWN);
+        } else {
+            // decrease volume
+            tap_code(KC_MS_WH_UP);
         }
     }
 
