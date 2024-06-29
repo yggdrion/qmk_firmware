@@ -10,7 +10,7 @@ on:
 # make clean && make splitkb/aurora/helix/rev1:default
 
 jobs:
-  api_data:
+  qmk_build:
     runs-on: ubuntu-latest
 
     steps:
