@@ -44,12 +44,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void keyboard_post_init_user(void) {
     // Initialize RGB to static black
     rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_WHITE);
+    rgblight_sethsv_noeeprom(HSV_BLUE);
     rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
 }
 
 void housekeeping_task_user(void) {
-    rgblight_setrgb_at(RGB_WHITE, 0);
+    rgblight_setrgb_at(RGB_BLUE, 0);
 }
 
 #endif
