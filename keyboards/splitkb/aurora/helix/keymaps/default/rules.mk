@@ -11,7 +11,7 @@ RGBLIGHT_ENABLE = yes
 CONVERT_TO=liatris
 
 #QMK_SETTINGS = yes
-#LTO_ENABLE = yes
+LTO_ENABLE = yes
 
 #RGBLIGHT_SLEEP = yes
 
