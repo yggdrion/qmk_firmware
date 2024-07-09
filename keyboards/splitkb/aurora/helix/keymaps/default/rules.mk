@@ -16,4 +16,3 @@ LTO_ENABLE = yes
 #RGBLIGHT_SLEEP = yes
 
 #VIA_ENABLE = yes
-
