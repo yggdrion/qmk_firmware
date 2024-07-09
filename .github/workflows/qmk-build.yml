@@ -1,0 +1,38 @@
+name: build-qmk
+
+# manual run and on push
+
+on:
+  push:
+  workflow_dispatch:
+
+# build qmk with command
+# make clean && make splitkb/aurora/helix/rev1:default
+
+jobs:
+  qmk_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --user qmk
+
+      - name: setup qmk
+        run: |
+          qmk setup -y
+
+      - name: build
+        run: |
+          make splitkb/aurora/helix/rev1:default
+
+      - name: Upload a Firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: .build/*.uf2
